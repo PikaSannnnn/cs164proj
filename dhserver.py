@@ -87,32 +87,29 @@ while(1):
 		ret_msg += HOPS.to_bytes(1, 'big')
 		ret_msg += XID + SECS + FLAGS
 
-# Addresses
+		# Addresses
 		ret_msg += CIP
 		ret_msg += offer_ip
 		ret_msg += server_ip
 		ret_msg += GIP + MAC
-# Misc pt 1 (BOOTSTRAP and COOKIE)
+		# Misc pt 1 (BOOTSTRAP and COOKIE)
 		ret_msg += BOOTP + MCOOKIE
 
-# TODO: Fix if DOPTIONS CHANGED
-# DHCP Message Type
+		# DHCP Message Type
 		ret_msg += (53).to_bytes(1, 'big') + b'\x01' + b'\x05'
 
-# Address Time
+		# Address Time
 		ret_msg += (51).to_bytes(1, 'big')
 		ret_msg += (8000).to_bytes(((8000).bit_length() + 7) // 8, 'big')
 
-# DHCP Server
+		# DHCP Server
 		ret_msg += (54).to_bytes(1, 'big')
 		ret_msg += server_ip
 
-# Fill Rest of Message
+		# Fill Rest of Message
 		ret_msg += (b'\x00' * (len(msg) - len(ret_msg)))
 
-# print(OFFERED_IP)
-# print(msg)
-	
+		print("\tAcknowledging: " + format_addr(offer_ip, 'ip'))
 	elif DACT[2] == 1:
 		print("Received DHCPDISCOVER, XID: " + format_addr(XID, d='x') + ", MAC: " + format_addr(MAC, 'mac'))
 		"""
